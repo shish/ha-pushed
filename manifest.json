@@ -2,6 +2,7 @@
   "domain": "pushed",
   "name": "Pushed",
   "documentation": "https://github.com/shish/ha-pushed",
+  "issue_tracker": "https://github.com/shish/ha-pushed/issues",
   "requirements": [],
   "codeowners": ["webmaster@shishnet.org"]
 }
