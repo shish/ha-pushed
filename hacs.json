@@ -1,4 +1,5 @@
 {
   "name": "Notifications via Pushed.co",
   "render_readme": true,
+  "domains": ["notify"]
 }
