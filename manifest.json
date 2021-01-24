@@ -1,0 +1,7 @@
+{
+  "domain": "pushed",
+  "name": "Pushed",
+  "documentation": "https://github.com/shish/ha-pushed",
+  "requirements": [],
+  "codeowners": ["webmaster@shishnet.org"]
+}
