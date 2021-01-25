@@ -27,28 +27,28 @@ ATTR_EXPIRE = "expire"
 ATTR_TIMESTAMP = "timestamp"
 
 CONF_APP_KEY = "app_key"
-CONF_SECRET_KEY = "secret_key"
+CONF_APP_SECRET = "app_secret"
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {vol.Required(CONF_APP_KEY): cv.string, vol.Required(CONF_SECRET_KEY): cv.string}
+    {vol.Required(CONF_APP_KEY): cv.string, vol.Required(CONF_APP_SECRET): cv.string}
 )
 
 
 def get_service(hass, config, discovery_info=None):
     """Get the Pushover notification service."""
     return PushedNotificationService(
-        hass, config[CONF_APP_KEY], config[CONF_SECRET_KEY]
+        hass, config[CONF_APP_KEY], config[CONF_APP_SECRET]
     )
 
 
 class PushedNotificationService(BaseNotificationService):
     """Implement the notification service for Pushover."""
 
-    def __init__(self, hass, app_key, secret_key):
+    def __init__(self, hass, app_key, app_secret):
         """Initialize the service."""
         self._hass = hass
         self._app_key = app_key
-        self._secret_key = secret_key
+        self._app_secret = app_secret
 
     def send_message(self, message="", **kwargs):
         """Send a message to a user."""
@@ -93,8 +93,8 @@ class PushedNotificationService(BaseNotificationService):
         for target in targets:
             try:
                 requests.post("https://api.pushed.co/1/push", data={
-                    "app_key": self.app_key,
-                    "app_secret": self.app_secret,
+                    "app_key": self._app_key,
+                    "app_secret": self._app_secret,
                     "target_type": "app",
                     "content": message,
                 })
