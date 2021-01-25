@@ -43,7 +43,7 @@ class PushedNotificationService(BaseNotificationService):
         """Send a message to a user."""
         title = kwargs.get("title")
         target = kwargs.get("target")
-        data = kwargs.get("data", {})
+        data = kwargs.get("data") or {}
 
         url = data.get("url")
         msg_args = {
