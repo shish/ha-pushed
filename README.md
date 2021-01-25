@@ -13,4 +13,10 @@ notify:
     app_secret: !secret pushed_app_secret
 ```
 
+In secrets.yaml:
+```
+pushed_app_key: abcd...
+pushed_app_secret: abcd...
+```
+
 Test that the platform works with developer tools -> service: `notify.pushed` -> service data: `{"message": "Hello World!"}`
