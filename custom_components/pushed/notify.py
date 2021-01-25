@@ -42,30 +42,28 @@ class PushedNotificationService(BaseNotificationService):
     def send_message(self, message="", **kwargs):
         """Send a message to a user."""
         title = kwargs.get("title")
-        target = data.get("target")
-        url = data.get("url")
-        kwargs = {}
-        if url:
-            kwargs["content_type"] = "url"
-            kwargs["content_extra"] = url
+        target = kwargs.get("target")
+        data = kwargs.get("data", {})
 
+        url = data.get("url")
+        msg_args = {
+            "app_key": self._app_key,
+            "app_secret": self._app_secret,
+            "content": message,
+            "target_type": "app",
+        }
+        if url:
+            msg_args["content_type"] = "url"
+            msg_args["content_extra"] = url
         if target:
             if "@" in target:
-                self._send_to(target_type="email", email=target, **kwargs)
+                msg_args["target_type"] = "email"
+                msg_args["email"] = target
             else:
-                self._send_to(target_type="channel", target_alias=target, **kwargs)
-        else:
-            self._send_to(target_type="app", **kwargs)
+                msg_args["target_type"] = "channel"
+                msg_args["target_alias"] = target
 
-    def _send_to(self, **kwargs):
         try:
-            data = {
-                "app_key": self._app_key,
-                "app_secret": self._app_secret,
-                "content": message,
-            }
-            data.update(kwargs)
-            requests.post("https://api.pushed.co/1/push", data=data)
+            requests.post("https://api.pushed.co/1/push", data=msg_args)
         except ValueError as val_err:
             _LOGGER.error(val_err)
-
