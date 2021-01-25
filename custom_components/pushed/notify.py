@@ -43,9 +43,10 @@ class PushedNotificationService(BaseNotificationService):
         """Send a message to a user."""
         title = kwargs.get("title")
         target = kwargs.get("target")
-        data = kwargs.get("data") or {}
-
+        data = dict(kwargs.get("data") or {})
         url = data.get("url")
+        
+        # Full list of possible args at https://about.pushed.co/docs/api
         msg_args = {
             "app_key": self._app_key,
             "app_secret": self._app_secret,
